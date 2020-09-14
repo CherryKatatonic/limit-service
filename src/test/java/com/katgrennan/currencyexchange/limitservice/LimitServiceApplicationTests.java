@@ -2,12 +2,15 @@ package com.katgrennan.currencyexchange.limitservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@EnableConfigurationProperties
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class LimitServiceApplicationTests {
 
@@ -22,7 +25,7 @@ class LimitServiceApplicationTests {
 
 	@Test
 	public void contexLoadsControllers() throws Exception {
-		assertThat(limitConfigurationController).isNotNull();
+		assertNotNull(limitConfigurationController);
 	}
 
 	// Assert that LimitConfigurationContrller returns hard-coded limits as JSON
@@ -32,11 +35,17 @@ class LimitServiceApplicationTests {
 	@Autowired
 	private TestRestTemplate restTemplate;
 
+	@Value("${limit-service.minimum}")
+	private String limitServiceMinimum;
+
+	@Value("${limit-service.maximum}")
+	private String limitServiceMaximum;
+
 	@Test
-	public void greetingShouldReturnDefaultMessage() throws Exception {
-		assertThat(this.restTemplate
+	public void limitsPathReturnsLimits() throws Exception {
+		assert(this.restTemplate
 				.getForObject("http://localhost:" + port + "/limits", String.class))
-				.contains("{\"maximum\":1000,\"minimum\":1}");
+				.contains("{\"maximum\":" + limitServiceMaximum + ",\"minimum\":" + limitServiceMinimum + "}");
 	}
 
 }
