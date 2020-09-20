@@ -3,10 +3,13 @@ package com.katgrennan.currencyexchange.limitservice;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+// Declare Component for Autowiring in LimitConfigurationController
 @Component
+// Define prefix of properties to extract from .properties file
 @ConfigurationProperties("limit-service")
 public class Configuration {
 
+    // Minimum/maximum # of instances running
     private int minimum;
     private int maximum;
 

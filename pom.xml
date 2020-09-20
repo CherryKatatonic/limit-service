@@ -50,7 +50,9 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- Import Spring Boot Configuration Processor -->
+		<!-- Import to generate configuration metadata file from Configuration class
+			(annotated with @ConfigurationProperties) so the IDE doesn't get confused
+			 while we are getting our config properties from Cloud Config Server -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
@@ -76,7 +78,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<!-- Prevent repackage goal from adding spring-boot-configuration-processor
-					dependency into fat jar  -->
+					dependency into fat jar -->
 				<configuration>
 					<excludes>
 						<exclude>
